@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login & Signup</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"> <!-- Font Awesome link -->
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(45deg, cyan, orange);
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      overflow: hidden;
+      animation: bgAnimation 15s ease-in-out infinite;
+    }
+
+    @keyframes bgAnimation {
+      0% { background: linear-gradient(45deg, cyan, orange); }
+      50% { background: linear-gradient(45deg, cyan, orange); }
+      100% { background: linear-gradient(45deg, cyan, orange); }
+    }
+
+    .container {
+      width: 400px;
+      background: #fff;
+      border-radius: 15px;
+      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+      overflow: hidden;
+      transform: scale(1);
+      transition: transform 0.4s ease;
+    }
+
+    .toggle-container {
+      display: flex;
+      justify-content: space-between;
+      padding: 15px 0;
+      background-color: green;
+      font-size: 18px;
+      font-weight: 600;
+      cursor: pointer;
+    }
+
+    .toggle-container div {
+      flex: 1;
+      text-align: center;
+      padding: 10px;
+      color: black;
+      transition: color 0.3s;
+    }
+
+    .toggle-container .active {
+      color: cyan;
+      font-weight: 700;
+    }
+
+    .indicator {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      height: 3px;
+      width: 50%;
+      background-color: orange;
+      transition: transform 0.3s ease;
+      z-index: 10;
+    }
+
+    .form-container {
+      display: flex;
+      width: 200%;
+      transition: transform 0.6s ease;
+    }
+
+    .form {
+      width: 50%;
+      padding: 40px;
+      text-align: center;
+      box-sizing: border-box;
+      background: url('shopping.jpg');
+    }
+
+    .form h2 {
+      margin-bottom: 20px;
+      color: orange;
+      font-size: 28px;
+      font-weight: 700;
+    }
+
+    form input {
+      width: 100%;
+      padding: 15px;
+      margin: 10px 0;
+      border: 1px solid cyan;
+      border-radius: 8px;
+      font-size: 16px;
+      transition: border 0.3s;
+      position: relative;
+    }
+
+    form input:focus {
+      outline: none;
+      border: 1px solid cyan;
+    }
+
+    form button {
+      padding: 15px;
+      width: 100%;
+      background-color: cyan;
+      color: white;
+      border: none;
+      font-weight: 600;
+      font-size: 16px;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+
+    form button:hover {
+      background-color: #008B8B;
+    }
+
+    .error-message {
+      color: red;
+      font-size: 14px;
+      display: none;
+    }
+
+    /* Hover Effect on Inputs */
+    form input:hover {
+      border-color: black;
+    }
+
+    /* Eye Icon Styling */
+    .eye-icon {
+      position: absolute;
+      right: 10px;
+      top: 50%;
+      transform: translateY(-50%);
+      cursor: pointer;
+      font-size: 20px;
+      color: #666;
+    }
+
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <div class="toggle-container">
+      <div id="loginToggle" class="active" onclick="toggleForms(true)">Login</div>
+      <div id="signupToggle" onclick="toggleForms(false)">Sign Up</div>
+      <div class="indicator" id="indicator"></div>
+    </div>
+    <div class="form-container" id="formContainer">
+      <div class="form login-form">
+        <h2>Login</h2>
+        <form id="loginForm">
+          <input type="email" id="loginEmail" placeholder="Email" required>
+          <div style="position: relative;">
+            <input type="password" id="loginPassword" placeholder="Password" required>
+            <i id="loginEyeIcon" class="eye-icon fas fa-eye" onclick="togglePasswordVisibility('login')"></i> <!-- Eye icon -->
+          </div>
+          <button type="button" onclick="handleLogin()">Login</button>
+          <p class="error-message" id="loginError">Invalid email or password.<br>kindly Signup if you don't have an account or<br>Try again!</p>
+        </form>
+      </div>
+
+      <div class="form signup-form">
+        <h2>Sign Up</h2>
+        <form id="signupForm">
+          <input type="text" id="signupUsername" placeholder="Username" required>
+          <input type="email" id="signupEmail" placeholder="Email" required>
+          <div style="position: relative;">
+            <input type="password" id="signupPassword" placeholder="Password" required>
+            <i id="signupEyeIcon" class="eye-icon fas fa-eye" onclick="togglePasswordVisibility('signup')"></i> <!-- Eye icon -->
+          </div>
+          <button type="button" onclick="handleSignup()">Sign Up</button>
+          <p class="error-message" id="signupError">Account already exists.</p>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    function togglePasswordVisibility(formType) {
+      const passwordField = document.getElementById(formType + 'Password');
+      const eyeIcon = document.getElementById(formType + 'EyeIcon');
+
+      if (passwordField.type === "password") {
+        passwordField.type = "text";  // Make password visible
+        eyeIcon.classList.remove("fa-eye");
+        eyeIcon.classList.add("fa-eye-slash");  // Change icon to "eye-slash"
+      } else {
+        passwordField.type = "password";  // Hide password
+        eyeIcon.classList.remove("fa-eye-slash");
+        eyeIcon.classList.add("fa-eye");  // Change icon to "eye"
+      }
+    }
+
+    function toggleForms(showLogin) {
+      const formContainer = document.getElementById('formContainer');
+      const loginToggle = document.getElementById('loginToggle');
+      const signupToggle = document.getElementById('signupToggle');
+      const indicator = document.getElementById('indicator');
+
+      if (showLogin) {
+        formContainer.style.transform = 'translateX(0%)';
+        indicator.style.transform = 'translateX(0%)';
+        loginToggle.classList.add('active');
+        signupToggle.classList.remove('active');
+      } else {
+        formContainer.style.transform = 'translateX(-50%)';
+        indicator.style.transform = 'translateX(100%)';
+        signupToggle.classList.add('active');
+        loginToggle.classList.remove('active');
+      }
+
+      // Hide error messages
+      document.getElementById('loginError').style.display = 'none';
+      document.getElementById('signupError').style.display = 'none';
+    }
+
+    function handleLogin() {
+      const email = document.getElementById('loginEmail').value;
+      const password = document.getElementById('loginPassword').value;
+      const loginError = document.getElementById('loginError');
+
+      const user = JSON.parse(localStorage.getItem(email));
+      if (user && user.password === password) {
+        alert("Login successful! Redirecting to home...");
+        window.location.href = "home.html";
+      } else {
+        loginError.style.display = "block";
+      }
+    }
+
+    function handleSignup() {
+      const username = document.getElementById('signupUsername').value;
+      const email = document.getElementById('signupEmail').value;
+      const password = document.getElementById('signupPassword').value;
+      const signupError = document.getElementById('signupError');
+      if (localStorage.getItem(email)) {
+        signupError.style.display = "block";
+      } else {
+        localStorage.setItem(email, JSON.stringify({ username, password }));
+        alert("Signup successful! You can now log in.");
+        toggleForms(true);
+      }
+    }
+
+    document.addEventListener("DOMContentLoaded", () => {
+      toggleForms(true);
+    });
+  </script>
+
+</body>
+</html>
