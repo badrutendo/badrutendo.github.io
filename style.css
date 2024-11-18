@@ -1360,27 +1360,40 @@ iframe {
 			size:12px;
 		}
 		
-		/* Styles for tablets and larger screens */
-.container {
-  width: 80%;
-  margin: 0 auto;
+		
+.search-icon {
+    font-size: 1.5em;
+    color: white;
+    cursor: pointer;
 }
 
-/* Styles for mobile screens */
-@media (max-width: 768px) {
-  .container {
-    width: 100%;
+/* Search container */
+.search-container {
+    position: absolute;
+    top: 50px;
+    right: 20px;
+    display: flex;
+    gap: 10px;
+    background: white;
     padding: 10px;
-  }
-  .form {
-    padding: 20px;
-  }
-  .form button {
-    font-size: 14px;
-    padding: 12px;
-  }
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    border-radius: 5px;
+    z-index: 1000;
 }
-img {
-  max-width: 100%;
-  height: auto;
+
+.search-container input {
+    border: 1px solid #ccc;
+    padding: 8px;
+    flex: 1;
+    border-radius: 4px;
+}
+
+.search-container button {
+    background: orange;
+    color: green;
+    border: none;
+    padding: 8px 15px;
+    cursor: pointer;
+    border-radius: 4px;
+    font-size: 1em;
 }
